@@ -1,6 +1,8 @@
 ﻿@page "/"
+@using BlazorAnimate
 @using Yalda.Client.Core
 @using System.Text.Json
+
 
 <div class="container rtl text-center">
     <div class="row">
@@ -8,17 +10,22 @@
             <br />
             <div class="row align-items-start">
                 <div class="col">
-                    <img src="/hafez/button-noshadow.png" @onclick="ShowMessage" />
+                     <Animate Animation="Animations.ZoomIn" Duration="TimeSpan.FromSeconds(2)" >
+                         <img src="/hafez/button-noshadow.png" @onclick="ShowMessage" class="@imageAnimationClass" />
+                    </Animate>
+                    
                 </div>
             </div>
             <div class="row align-items-center">
                 <div class="col">
                     @if (showMes)
                     {
+                          <Animate Animation="Animations.FlipUp" Duration="TimeSpan.FromSeconds(3)"  >
                         <div @onclick="HideMessage">
                             <p style="font-size:4vw;">@mesra[0]</p>
                             <p style="font-size:4vw;">@mesra[1]</p>
                         </div>
+                                </Animate>
                     }
                 </div>
             </div>
@@ -32,14 +39,12 @@
     bool showMes = false;
     string[] mesra = new string[2];
     List<Sher>? Shers = new List<Sher>(); // Create a Sher class to hold your data
+    string imageAnimationClass = ""; // Class for image animation
 
-    string butttonImage = "button.png";
-    string butttonShadowImage = "button-noshadow.png";
+    private Animate myAnim;
 
     protected override async Task OnInitializedAsync()
     {
-        // Fetch data from an API endpoint or a local JSON file
-        // For example, using HttpClient to get data from an API endpoint
         var httpClient = new HttpClient();
         var response = await httpClient.GetAsync("https://localhost:7017/hafez/hafez.json");
 
@@ -71,6 +76,8 @@
             {
                 mesra = found.Beit.Split('*');
                 showMes = true;
+               	//myAnim.Run();
+
             }
         }
     }
@@ -79,6 +86,23 @@
     {
         showMes = false;
         show = true;
+        ApplyImageAnimation(""); // Remove animation when hiding message
+    }
+
+    void ApplyImageAnimation(string className)
+    {
+        imageAnimationClass = className;
+        StateHasChanged(); // Ensure Blazor updates the UI after applying the class
+
+        // Remove the animation class after the animation duration completes
+        if (!string.IsNullOrEmpty(className))
+        {
+            Task.Delay(1000).ContinueWith(_ =>
+            {
+                imageAnimationClass = "";
+                StateHasChanged();
+            });
+        }
     }
 
     void ShowMessage()
