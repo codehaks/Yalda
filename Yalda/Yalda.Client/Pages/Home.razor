@@ -2,8 +2,6 @@
 @using Yalda.Client.Core
 @using System.Text.Json
 
-<h3>فال حافظ</h3>
-
 <div class="container rtl text-center">
     <div class="row">
         <div class="col text-dark">
@@ -27,11 +25,6 @@
         </div>
     </div>
 
-    <footer class="footer">
-        <p class="text-muted">
-            <a href="https://codehaks.com" class="btn btn-block btn-default" style="color:blueviolet">کاری از کدهک</a>
-        </p>
-    </footer>
 </div>
 
 @code {
@@ -67,7 +60,6 @@
 
     void SendMessage()
     {
-        srcImage = butttonImage;
         showMes = !showMes;
 
         if (showMes)
@@ -79,7 +71,6 @@
             {
                 mesra = found.Beit.Split('*');
                 showMes = true;
-                srcImage = butttonShadowImage;
             }
         }
     }
@@ -101,13 +92,4 @@
         return random.Next(min, max + 1);
     }
 
-    void ButtonMouseDown()
-    {
-        srcImage = butttonShadowImage;
-    }
-
-    void ButtonMouseUp()
-    {
-        srcImage = butttonImage;
-    }
 }
