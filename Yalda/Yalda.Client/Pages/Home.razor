@@ -20,12 +20,12 @@
                 <div class="col">
                     @if (showMes)
                     {
-                          <Animate Animation="Animations.FlipUp" Duration="TimeSpan.FromSeconds(3)"  >
-                        <div @onclick="HideMessage">
-                            <p style="font-size:4vw;">@mesra[0]</p>
-                            <p style="font-size:4vw;">@mesra[1]</p>
-                        </div>
-                                </Animate>
+                        <Animate Animation="Animations.FlipUp" Duration="TimeSpan.FromSeconds(3)"  >
+                            <div @onclick="HideMessage">
+                                <p style="font-size:4vw;">@mesra[0]</p>
+                                <p style="font-size:4vw;">@mesra[1]</p>
+                            </div>
+                        </Animate>
                     }
                 </div>
             </div>
