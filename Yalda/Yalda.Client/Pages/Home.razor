@@ -8,14 +8,6 @@
     <div class="row">
         <div class="col text-dark">
             <br />
-            <div class="row align-items-start">
-                <div class="col">
-                     <Animate Animation="Animations.ZoomIn" Duration="TimeSpan.FromSeconds(2)" >
-                         <img src="/hafez/button-noshadow.png" @onclick="ShowMessage" class="@imageAnimationClass" />
-                    </Animate>
-                    
-                </div>
-            </div>
             <div class="row align-items-center">
                 <div class="col">
                     @if (showMes)
@@ -26,9 +18,27 @@
                                 <p style="font-size:4vw;">@mesra[1]</p>
                             </div>
                         </Animate>
+                        <hr />
+                        <Animate Animation="Animations.FlipDown" Duration="TimeSpan.FromSeconds(3)"  >
+                         <img src="/hafez/hafez.png" @onclick="ShowMessage" />
+                        </Animate>
+                        <button class="mt-5" @onclick="Reset">
+                            دوباره
+                        </button>
                     }
                 </div>
             </div>
+                              @if (!showMes)
+                    {
+                        <div class="row align-items-start">
+                <div class="col">
+                     <Animate Animation="Animations.ZoomIn" Duration="TimeSpan.FromSeconds(2)" >
+                         <img src="/hafez/button-noshadow.png" @onclick="ShowMessage" class="@imageAnimationClass" />
+                    </Animate>
+                    
+                </div>
+            </div>
+                    }
         </div>
     </div>
 
@@ -46,7 +56,7 @@
     protected override async Task OnInitializedAsync()
     {
         var httpClient = new HttpClient();
-        var response = await httpClient.GetAsync("https://yalda.darkube.app/hafez/hafez.json");
+        var response = await httpClient.GetAsync("https://localhost:7017/hafez/hafez.json");
 
         if (response.IsSuccessStatusCode)
         {
@@ -76,10 +86,15 @@
             {
                 mesra = found.Beit.Split('*');
                 showMes = true;
-               	//myAnim.Run();
+                //myAnim.Run();
 
             }
         }
+    }
+
+    void Reset()
+    {
+               showMes = !showMes;
     }
 
     void HideMessage()
