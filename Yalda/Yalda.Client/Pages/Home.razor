@@ -18,13 +18,18 @@
                                 <p style="font-size:4vw;">@mesra[1]</p>
                             </div>
                         </Animate>
-                        <hr />
+
                         <Animate Animation="Animations.FlipDown" Duration="TimeSpan.FromSeconds(3)"  >
                          <img src="/hafez/hafez.png" @onclick="ShowMessage" />
                         </Animate>
-                        <button class="mt-5" @onclick="Reset">
-                            دوباره
-                        </button>
+                        <hr />
+                        if (resetButton)
+                        {
+                         <Animate Animation="Animations.FadeIn" Duration="TimeSpan.FromSeconds(3)">     
+                            <img src="/hafez/reset-water-2.png" style="width:100px" class="mt-5"  @onclick="Reset"/>
+                        </Animate>                            
+                        }
+
                     }
                 </div>
             </div>
@@ -47,11 +52,18 @@
 @code {
     bool show = false;
     bool showMes = false;
+    bool resetButton = false;
+
     string[] mesra = new string[2];
     List<Sher>? Shers = new List<Sher>(); // Create a Sher class to hold your data
     string imageAnimationClass = ""; // Class for image animation
 
-    private Animate myAnim;
+    private Animate myAnim=new Animate();
+
+    private void RunAnimation()
+    {
+        myAnim.Run();
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -86,7 +98,9 @@
             {
                 mesra = found.Beit.Split('*');
                 showMes = true;
-                //myAnim.Run();
+                StateHasChanged();
+                resetButton = true;
+                myAnim.Run();
 
             }
         }
